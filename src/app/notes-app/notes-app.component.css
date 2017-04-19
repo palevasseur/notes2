@@ -1,0 +1,50 @@
+.main-section {
+  background-color: #f2f2f2;
+}
+
+md-toolbar {
+  background-color: #f2f2f2;
+  margin: 0 0 5px 0;
+}
+
+md-card {
+  margin: 0 5px 5px 5px;
+  padding: 10px;
+}
+
+md-card-title {
+  margin-bottom: 5px;
+  font-size: 20px;
+}
+
+md-card-content {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+md-card-subtitle {
+}
+
+/*
+.flex-container {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+}
+
+.flex-item {
+  background: tomato;
+  padding: 5px;
+  width: 200px;
+  height: 150px;
+  margin-top: 10px;
+
+  line-height: 150px;
+  color: white;
+  font-weight: bold;
+  font-size: 3em;
+  text-align: center;
+}*/

@@ -1,0 +1,35 @@
+md-card {
+  margin: 0 5px 5px 5px;
+  padding: 10px;
+}
+
+md-card-title {
+  margin-bottom: 5px;
+  font-size: 20px;
+}
+
+md-card-content {
+  font-size: 12px;
+  margin-bottom: 5px;
+}
+
+md-card-subtitle {
+}
+
+.moreContent {
+  text-align: center;
+  cursor: pointer;
+}
+
+.moreContent:hover {
+  background-color: #fbfbfb;
+}
+
+.lessContent {
+  text-align: center;
+  cursor: pointer;
+}
+
+.lessContent:hover {
+  background-color: #fbfbfb;
+}
