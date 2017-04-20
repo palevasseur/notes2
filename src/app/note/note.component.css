@@ -1,6 +1,7 @@
 md-card {
   margin: 0 5px 5px 5px;
   padding: 10px;
+  background-color: white;
 }
 
 md-card-title {

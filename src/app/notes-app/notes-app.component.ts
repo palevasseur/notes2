@@ -2,7 +2,7 @@ import {Component, OnInit, ViewChild, Inject, ElementRef} from '@angular/core';
 import { Note } from '../note';
 import { NoteService } from '../note.service';
 
-declare var jQuery:any;
+declare const jQuery: any;
 
 @Component({
   selector: 'app-notes-app',
@@ -16,11 +16,11 @@ export class NotesAppComponent implements OnInit {
 
   categories: {name: string, value: string}[];
   selectedCategory: string; // value of the category
-  displayCategories: boolean = true; // display categories true => init with the good category
-  showNoteInfo: boolean = false;
+  displayCategories = true; // display categories true => init with the good category
+  showNoteInfo = false;
 
   // keywords search
-  keywordsInput: string = ''; // ex: js, obj test
+  keywordsInput = ''; // ex: js, obj test
   keywordsFilter: string[][] = []; // ex: js, obj test => [['js'], ['obj', 'test']] => js OR (obj AND test)
 
   constructor(private noteService: NoteService) {
@@ -36,19 +36,19 @@ export class NotesAppComponent implements OnInit {
 
   ngOnInit() {
     this.categories = this.noteService.getCategories();
-    if(this.categories.length>0) {
+    if (this.categories.length > 0) {
       this.selectedCategory = this.categories[0].value;
     }
 
-    //this.noteService.setCategory(this.currentCategoryValue);
+    // this.noteService.setCategory(this.currentCategoryValue);
   }
 
   ngAfterViewInit() {
-    var _this = this;
-    //jQuery(this.elementRef.nativeElement)
+    const _this = this;
+    // jQuery(this.elementRef.nativeElement)
     //  .find('#idKeywordsSearch')
     jQuery(this.keywordsSearch.nativeElement).autocomplete({
-        source:function( request, response ) {
+        source: function( request, response ) {
           // suggest against the last term of input
           response( jQuery.ui.autocomplete.filter(
             _this.suggestions, request.term.split(/[ ,]/).pop() ) );
@@ -57,7 +57,7 @@ export class NotesAppComponent implements OnInit {
           return false; // prevent value inserted on focus
         },
         select: (e, args) => {
-          let previousEntry = _this.keywordsInput.replace(/(.*[, ]).*|.*/, '$1');
+          const previousEntry = _this.keywordsInput.replace(/(.*[, ]).*|.*/, '$1');
           _this.keywordsInput = previousEntry + args.item.value; // https://regex101.com/r/YSDuUD/1
           return false; // prevent value set on exact match
         }
@@ -73,13 +73,13 @@ export class NotesAppComponent implements OnInit {
   }
 
   get selectedCategoryName() {
-    let cat = this.categories.filter(cat => cat.value==this.selectedCategory);
-    return cat.length>0 ? cat[0].name : '';
+    const cat = this.categories.filter(c => c.value === this.selectedCategory);
+    return cat.length > 0 ? cat[0].name : '';
   }
 
   static previousCategory = ''; // todo: remove this workaround
   categoryChanged() {
-    if(NotesAppComponent.previousCategory==this.selectedCategory) {
+    if (NotesAppComponent.previousCategory === this.selectedCategory) {
       return;
     }
 

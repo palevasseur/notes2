@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
-import {Note} from "../note";
-import {NoteService} from "../note.service";
+import {Note} from '../note';
+import {NoteService} from '../note.service';
 
 type NoteStatus = 'display' | 'edit' | 'create';
 
@@ -14,7 +14,7 @@ export class NoteComponent implements OnInit {
   public note: any; // todo: split Note and NoteDB
   public showExtra: boolean;
   public mode: NoteStatus = 'display';
-  public display: boolean = true;
+  public display = true;
 
   private keywordsInput = '';
 
@@ -22,11 +22,11 @@ export class NoteComponent implements OnInit {
   }
 
   ngOnInit() {
-    if(this.mode == 'create') {
+    if (this.mode === 'create') {
       this.note = new Note();
     }
 
-    if(!this.note) {
+    if (!this.note) {
       console.error('missing note object !');
     }
   }
@@ -49,14 +49,14 @@ export class NoteComponent implements OnInit {
   }
 
   updateNote() {
-    if(!this.note.$key) {
+    if (!this.note.$key) {
       console.error('upateNote() failed, missing $key');
     }
 
     this.noteService.updateNote(this.note.$key, {
         title: this.note.title,
         text: this.note.text,
-        keywords: this.mode == 'edit' ? this.keywordsInput.toLowerCase().split(',') : this.note.keywords,
+        keywords: this.mode === 'edit' ? this.keywordsInput.toLowerCase().split(',') : this.note.keywords,
         date: this.note.date,
         sortId: this.note.sortId || this.note.date // to migrate, use date if no sortId
       }
@@ -81,11 +81,10 @@ export class NoteComponent implements OnInit {
   }
 
   cancel() {
-    if(this.mode=='create') {
+    if (this.mode === 'create') {
       this.note = new Note();
       this.display = false;
-    }
-    else {
+    } else {
       // todo: refresh data to see previous value
       this.mode = 'display';
     }
@@ -96,17 +95,17 @@ export class NoteComponent implements OnInit {
   }
 
   nbrLinesToEdit() {
-    let nbrLines = this.note.text.split('\n').length;
+    const nbrLines = this.note.text.split('\n').length;
 
-    if(nbrLines >= 20) {
+    if (nbrLines >= 20) {
       return 20;
     }
 
-    if(nbrLines <= 3) {
+    if (nbrLines <= 3) {
       return 3;
     }
 
-    return nbrLines
+    return nbrLines;
   }
 
   moveTop() {
