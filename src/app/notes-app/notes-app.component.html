@@ -1,59 +1,36 @@
-<section class="main-section">
-  <header>
-    <md-toolbar>
+<section fxLayout='column' class="main-section">
+  <md-toolbar fxFlex="60px">
+    <md-button-toggle-group *ngIf="displayCategories" style="font-size: medium" [(ngModel)]="selectedCategory" (change)="categoryChanged()">
+      <md-button-toggle *ngFor="let cat of categories" [value]="cat.value">{{cat.name}}</md-button-toggle>
+    </md-button-toggle-group>
+    <md-button-toggle-group *ngIf="!displayCategories" style="font-size: medium">
+      <md-button-toggle checked="true" (click)="displayCategories = true">{{selectedCategoryName}}</md-button-toggle>
+    </md-button-toggle-group>
+    <!--span><button md-icon-button title="Categories" (click)="displayCategories()"><md-icon>format_align_justify</md-icon></button></span-->
 
-      <md-button-toggle-group *ngIf="displayCategories" style="font-size: medium" [(ngModel)]="selectedCategory" (change)="categoryChanged()">
-        <md-button-toggle *ngFor="let cat of categories" [value]="cat.value">{{cat.name}}</md-button-toggle>
-      </md-button-toggle-group>
-      <md-button-toggle-group *ngIf="!displayCategories" style="font-size: medium">
-        <md-button-toggle checked="true" (click)="displayCategories = true">{{selectedCategoryName}}</md-button-toggle>
-      </md-button-toggle-group>
-      <!--span><button md-icon-button title="Categories" (click)="displayCategories()"><md-icon>format_align_justify</md-icon></button></span-->
+    <span style="width: 100%; padding-right: 15px; padding-left: 15px">
+    <!--md-input-- style="width: 100%; font-size: medium" dividerColor="primary" floatingPlaceholder="false" placeholder="Keywords (space or comma separators)" [(ngModel)]="keywordsInput" (keyup)="search()"></md-input-->
+    <input #idKeywordsSearch style="width: 100%; font-size: medium" dividerColor="primary" placeholder="Keywords (space or comma separators)" [(ngModel)]="keywordsInput" (keyup)="search()">
+    </span>
 
-      <span style="width: 100%; padding-right: 15px; padding-left: 15px">
-        <!--md-input-- style="width: 100%; font-size: medium" dividerColor="primary" floatingPlaceholder="false" placeholder="Keywords (space or comma separators)" [(ngModel)]="keywordsInput" (keyup)="search()"></md-input-->
-        <input #idKeywordsSearch style="width: 100%; font-size: medium" dividerColor="primary" placeholder="Keywords (space or comma separators)" [(ngModel)]="keywordsInput" (keyup)="search()">
-      </span>
+    <button md-icon-button [md-menu-trigger-for]="toolbarMenu">
+      <md-icon>more_vert</md-icon>
+    </button>
+  </md-toolbar>
 
-      <span><button md-icon-button title="New note" (click)="showNewNote()"><md-icon>add</md-icon></button></span>
-      <span *ngIf="!showNoteInfo"><button md-icon-button title="Show notes info" (click)="showNoteInfo=true;"><md-icon>short_text</md-icon></button></span>
-      <span *ngIf="showNoteInfo"><button md-icon-button title="Hide notes info" (click)="showNoteInfo=false;"><md-icon>drag_handle</md-icon></button></span>
-
-    </md-toolbar>
-
-    <!--md-card *ngIf="displayNewNote">
-      <md-input style="width: 59%" placeholder="Title" [(ngModel)]="newNote.title"></md-input>
-      <md-input style="width: 39%" placeholder="Keywords" [(ngModel)]="keywordsNewNote"></md-input>
-      <textarea style="width: 98%; resize: vertical" rows="3" [(ngModel)]="newNote.text"></textarea>
-      <div style="width: 98%; text-align:right">
-        <button md-button (click)="addNote()">Create</button>
-        <button md-button (click)="toggleNewNote()">Cancel</button>
-      </div-->
-
-      <!--br> flex - div
-      <div class="flex-container">
-        <div class="flex-item">1</div>
-        <div class="flex-item">2</div>
-        <div class="flex-item">3</div>
-        <div class="flex-item">4</div>
-      </div-->
-
-      <!--br> flex - ul - li
-      <ul class="flex-container">
-        <li class="flex-item">1</li>
-        <li class="flex-item">2</li>
-        <li class="flex-item">3</li>
-        <li class="flex-item">4</li>
-        <li class="flex-item">5</li>
-        <li class="flex-item">6</li>
-      </ul-->
-    <!--/md-card-->
-
-  </header>
-  <section>
+  <div fxFlex class="notes-content">
     <app-note #idCreateNote [mode]="'create'" [display]="false"></app-note>
     <app-note *ngFor="let note of notes | async | filterNotes:keywordsFilter" [note]="note" [showExtra]="showNoteInfo"></app-note>
-  </section>
-  <footer>
-  </footer>
+  </div>
 </section>
+
+<md-menu x-position="before" #toolbarMenu="mdMenu">
+  <button md-menu-item (click)="showNoteInfo=true;" *ngIf="!showNoteInfo"><md-icon>drag_handle</md-icon>show note info</button>
+  <button md-menu-item (click)="showNoteInfo=false;" *ngIf="showNoteInfo"><md-icon>short_text</md-icon>hide note info</button>
+</md-menu>
+
+<span class="addButton">
+  <button md-mini-fab style="background-color: #00ad00" title="New note" (click)="showNewNote()">
+    <md-icon>add</md-icon>
+  </button>
+</span>
