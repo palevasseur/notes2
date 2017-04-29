@@ -1,21 +1,27 @@
 <section fxLayout='column' class="main-section">
   <md-toolbar fxFlex="60px">
-    <md-button-toggle-group *ngIf="displayCategories" style="font-size: medium" [(ngModel)]="selectedCategory" (change)="categoryChanged()">
-      <md-button-toggle *ngFor="let cat of categories" [value]="cat.value">{{cat.name}}</md-button-toggle>
-    </md-button-toggle-group>
-    <md-button-toggle-group *ngIf="!displayCategories" style="font-size: medium">
-      <md-button-toggle checked="true" (click)="displayCategories = true">{{selectedCategoryName}}</md-button-toggle>
-    </md-button-toggle-group>
-    <!--span><button md-icon-button title="Categories" (click)="displayCategories()"><md-icon>format_align_justify</md-icon></button></span-->
 
-    <span style="width: 100%; padding-right: 15px; padding-left: 15px">
-    <!--md-input-- style="width: 100%; font-size: medium" dividerColor="primary" floatingPlaceholder="false" placeholder="Keywords (space or comma separators)" [(ngModel)]="keywordsInput" (keyup)="search()"></md-input-->
-    <input #idKeywordsSearch style="width: 100%; font-size: medium" dividerColor="primary" placeholder="Keywords (space or comma separators)" [(ngModel)]="keywordsInput" (keyup)="search()">
-    </span>
+    <md-select [(ngModel)]="selectedCategory" (change)="categoryChanged()">
+      <md-option *ngFor="let cat of categories" [value]="cat.value">
+        {{ cat.name }}
+      </md-option>
+    </md-select>
+
+    <md-input-container class="autocomplete">
+      <input type="text" mdInput [mdAutocomplete]="autoCompleteList" [(ngModel)]="keywordsInput"
+             (keyup)="search()" (focus)="search()"
+             title="Keywords (space or comma separators)">
+    </md-input-container>
+    <md-autocomplete #autoCompleteList="mdAutocomplete">
+      <md-option *ngFor="let option of suggestOptions" [value]="option.expression">
+        {{ option.display }}
+      </md-option>
+    </md-autocomplete>
 
     <button md-icon-button [md-menu-trigger-for]="toolbarMenu">
       <md-icon>more_vert</md-icon>
     </button>
+
   </md-toolbar>
 
   <div fxFlex class="notes-content">

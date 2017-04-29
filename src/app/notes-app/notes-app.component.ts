@@ -1,8 +1,5 @@
-import {Component, OnInit, ViewChild, Inject, ElementRef} from '@angular/core';
-import { Note } from '../note';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { NoteService } from '../note.service';
-
-declare const jQuery: any;
 
 @Component({
   selector: 'app-notes-app',
@@ -12,11 +9,9 @@ declare const jQuery: any;
 export class NotesAppComponent implements OnInit {
 
   @ViewChild('idCreateNote') createNote;
-  @ViewChild('idKeywordsSearch') keywordsSearch;
 
   categories: {name: string, value: string}[];
   selectedCategory: string; // value of the category
-  displayCategories = true; // display categories true => init with the good category
   showNoteInfo = false;
 
   // keywords search
@@ -26,42 +21,16 @@ export class NotesAppComponent implements OnInit {
   constructor(private noteService: NoteService) {
   }
 
-  /*
-   elementRef: ElementRef;
-
-   constructor(@Inject(ElementRef) elementRef: ElementRef, private noteService: NoteService) {
-   this.elementRef = elementRef;
-   }
-   */
-
   ngOnInit() {
     this.categories = this.noteService.getCategories();
     if (this.categories.length > 0) {
       this.selectedCategory = this.categories[0].value;
     }
 
-    // this.noteService.setCategory(this.currentCategoryValue);
+    this.categoryChanged();
   }
 
   ngAfterViewInit() {
-    const _this = this;
-    // jQuery(this.elementRef.nativeElement)
-    //  .find('#idKeywordsSearch')
-    jQuery(this.keywordsSearch.nativeElement).autocomplete({
-        source: function( request, response ) {
-          // suggest against the last term of input
-          response( jQuery.ui.autocomplete.filter(
-            _this.suggestions, request.term.split(/[ ,]/).pop() ) );
-        },
-        focus: function() {
-          return false; // prevent value inserted on focus
-        },
-        select: (e, args) => {
-          const previousEntry = _this.keywordsInput.replace(/(.*[, ]).*|.*/, '$1');
-          _this.keywordsInput = previousEntry + args.item.value; // https://regex101.com/r/YSDuUD/1
-          return false; // prevent value set on exact match
-        }
-      });
   }
 
   private static flatten(keywords: string[][]): string[] {
@@ -72,56 +41,38 @@ export class NotesAppComponent implements OnInit {
     return (new Date(date)).toString();
   }
 
-  get selectedCategoryName() {
-    const cat = this.categories.filter(c => c.value === this.selectedCategory);
-    return cat.length > 0 ? cat[0].name : '';
-  }
-
-  static previousCategory = ''; // todo: remove this workaround
   categoryChanged() {
-    if (NotesAppComponent.previousCategory === this.selectedCategory) {
-      return;
-    }
-
-    this.displayCategories = false;
     this.noteService.resetKeywordsList();
     this.noteService.setCategory(this.selectedCategory);
-    NotesAppComponent.previousCategory = this.selectedCategory;
   }
 
   showNewNote() {
     this.createNote.display = true;
   }
-/*
-  addNote() {
-    if (this.keywordsNewNote) {
-      this.newNote.keywords = NotesAppComponent.flatten(this.computeKeywords(this.keywordsNewNote));
-    }
 
-    this.noteService.addNote(this.newNote);
-    this.displayNewNote = false;
-
-    if(this.editingNote) {
-      this.removeNote(this.editingNote);
-      this.editingNote = null;
-    }
-  }
-
-  editNote(note) {
-    this.editingNote = note;
-    this.newNote = new Note();
-    this.newNote.title = note.title;
-    this.newNote.text = note.text;
-    this.keywordsNewNote = note.keywords ? note.keywords.join(',') : '';
-    this.displayNewNote = true;
-  }
-
-  removeNote(note) {
-    this.noteService.deleteNoteById(note.$key);
-  }
-*/
+  suggestOptions = [];
+  keywordsInputSav = '';
   search() {
+    if(this.keywordsInput == this.keywordsInputSav) {
+      return;
+    }
+
+    this.keywordsInputSav = this.keywordsInput;
     this.keywordsFilter = this.computeKeywords(this.keywordsInput);
+
+    let match = /(.*[, ])?(.*)/g.exec(this.keywordsInput);
+    let beforeKeyword = match[1] || '';
+    let lastKeyword = match[2] || '';
+    this.suggestOptions = this.suggestions
+      .filter(elem => {
+        return elem.indexOf(lastKeyword) >= 0;
+      })
+      .map(elem => {
+        return {
+          expression: beforeKeyword + elem,
+          display: elem
+        };
+      });
   }
 
   get notes() {

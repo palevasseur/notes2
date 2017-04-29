@@ -5,7 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import {
   MdCardModule, MdButtonModule, MdButtonToggleModule, MdInputModule, MdToolbarModule,
-  MdIconModule, MdMenuModule
+  MdIconModule, MdMenuModule, MdAutocompleteModule, MdSelectModule
 } from '@angular/material';
 import {AngularFireModule, AuthProviders, AuthMethods} from 'angularfire2';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -37,7 +37,7 @@ const firebaseAuthConfig = {
     FlexLayoutModule,
     HttpModule,
     MdCardModule, MdToolbarModule, MdButtonModule, MdButtonToggleModule, MdInputModule, MdIconModule,
-    MdMenuModule,
+    MdMenuModule, MdAutocompleteModule, MdSelectModule,
     AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig)
   ],
   declarations: [ AppComponent, NotesAppComponent, FilterNotesPipe, FormatTextPipe, NoteComponent ],
