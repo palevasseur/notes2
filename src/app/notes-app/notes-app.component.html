@@ -8,12 +8,10 @@
     </md-select>
 
     <md-input-container class="autocomplete">
-      <input type="text" mdInput [mdAutocomplete]="autoCompleteList" [(ngModel)]="keywordsInput"
-             (keyup)="search()" (focus)="search()"
-             title="Keywords (space or comma separators)">
+      <input type="text" mdInput [mdAutocomplete]="autoCompleteList" [formControl]="suggestControl" title="Keywords (space or comma separators)">
     </md-input-container>
     <md-autocomplete #autoCompleteList="mdAutocomplete">
-      <md-option *ngFor="let option of suggestOptions" [value]="option.expression">
+      <md-option *ngFor="let option of suggestOptions | async" [value]="option.expression">
         {{ option.display }}
       </md-option>
     </md-autocomplete>

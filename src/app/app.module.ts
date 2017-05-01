@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import {
   MdCardModule, MdButtonModule, MdButtonToggleModule, MdInputModule, MdToolbarModule,
@@ -34,6 +34,7 @@ const firebaseAuthConfig = {
   imports: [ BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
+    ReactiveFormsModule,
     FlexLayoutModule,
     HttpModule,
     MdCardModule, MdToolbarModule, MdButtonModule, MdButtonToggleModule, MdInputModule, MdIconModule,
