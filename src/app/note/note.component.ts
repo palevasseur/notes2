@@ -6,7 +6,7 @@ type NoteStatus = 'display' | 'edit' | 'create';
 
 @Component({
   selector: 'app-note',
-  inputs: ['note', 'showExtra', 'mode', 'display'],
+  inputs: ['note', 'showExtra', 'mode', 'display', 'truncateNote'],
   templateUrl: './note.component.html',
   styleUrls: ['./note.component.css']
 })
@@ -15,6 +15,7 @@ export class NoteComponent implements OnInit {
   public showExtra: boolean;
   public mode: NoteStatus = 'display';
   public display = true;
+  public truncateNote = true;
 
   private keywordsInput = '';
 

@@ -8,6 +8,10 @@ md-toolbar {
   margin: 0 0 5px 0;
 }
 
+md-toolbar button {
+  font-size: 16px;
+}
+
 .autocomplete {
   width: 100%;
   margin-left: 15px;

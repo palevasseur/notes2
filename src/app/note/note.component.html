@@ -3,20 +3,23 @@
     <span>{{note.title}}</span>
   </md-card-title>
   <md-card-content>
-    <div #noteContent style="white-space: pre-wrap; max-height:200px; overflow:hidden;" [innerHTML]="note.text | formatText"></div>
     <!-- todo: create moreLessNote component -->
-    <div [style.display]="noteContent.clientHeight==200 ? '' : 'none'" class="moreContent" (click)="noteContent.style.maxHeight = ''">...</div>
-    <div [style.display]="noteContent.clientHeight>200 ? '' : 'none'" class="lessContent" (click)="noteContent.style.maxHeight = '200px';">&#9473;</div>
+    <div *ngIf="truncateNote">
+      <div #noteContent style="white-space: pre-wrap; max-height:200px; overflow:hidden;" [innerHTML]="note.text | formatText"></div>
+      <div [style.display]="noteContent.clientHeight==200 ? '' : 'none'" class="moreContent" (click)="noteContent.style.maxHeight = ''">...</div>
+      <div [style.display]="noteContent.clientHeight>200 ? '' : 'none'" class="lessContent" (click)="noteContent.style.maxHeight = '200px';">&#9473;</div>
+    </div>
+    <div *ngIf="!truncateNote" #noteContent style="white-space: pre-wrap; overflow:hidden;" [innerHTML]="note.text | formatText"></div>
   </md-card-content>
   <md-card-subtitle *ngIf="showExtra">
     <span>keywords: {{note.keywords}}</span>
-    <span> / id: {{note.$key}}</span>
+    <!--span> / id: {{note.$key}}</span-->
     <span> / date: {{formatDate(note.date)}}</span>
     <button md-icon-button (click)="editNote()"><md-icon>edit</md-icon></button>
     <button md-icon-button (click)="removeNote()"><md-icon>delete</md-icon></button>
     <!--button md-icon-button (click)="moveUp()"><md-icon>keyboard_arrow_up</md-icon></button>
     <button md-icon-button (click)="moveDown()"><md-icon>keyboard_arrow_down</md-icon></button-->
-    <button md-icon-button (click)="moveTop()"><md-icon>looks</md-icon></button>
+    <button md-icon-button (click)="moveTop()"><md-icon>publish</md-icon></button>
   </md-card-subtitle>
 </md-card>
 

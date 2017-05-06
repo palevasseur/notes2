@@ -18,6 +18,7 @@ export class NotesAppComponent implements OnInit {
   categories: {name: string, value: string}[];
   selectedCategory: string; // value of the category
   showNoteInfo = false;
+  truncateNote = true;
 
   // keywords search
   keywordsFilter: string[][] = []; // ex: js, obj test => [['js'], ['obj', 'test']] => js OR (obj AND test)
@@ -36,6 +37,10 @@ export class NotesAppComponent implements OnInit {
     this.categoryChanged();
 
     this.suggestOptions = this.suggestControl.valueChanges.map(val => this.suggest(val));
+  }
+
+  get selectedCategoryName() {
+    return this.categories.filter(cat => cat.value == this.selectedCategory)[0].name;
   }
 
   private static flatten(keywords: string[][]): string[] {

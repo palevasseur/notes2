@@ -1,11 +1,10 @@
 <section fxLayout='column' class="main-section">
   <md-toolbar fxFlex="60px">
 
-    <md-select [(ngModel)]="selectedCategory" (change)="categoryChanged()">
-      <md-option *ngFor="let cat of categories" [value]="cat.value">
-        {{ cat.name }}
-      </md-option>
-    </md-select>
+    <button md-button [mdMenuTriggerFor]="caterogiesMenu">{{selectedCategoryName}}</button>
+    <md-menu #caterogiesMenu="mdMenu">
+      <button md-menu-item *ngFor="let cat of categories" (click)="selectedCategory=cat.value; categoryChanged();">{{ cat.name }}</button>
+    </md-menu>
 
     <md-input-container class="autocomplete">
       <input type="text" mdInput [mdAutocomplete]="autoCompleteList" [formControl]="suggestControl" title="Keywords (space or comma separators)">
@@ -24,13 +23,13 @@
 
   <div fxFlex class="notes-content">
     <app-note #idCreateNote [mode]="'create'" [display]="false"></app-note>
-    <app-note *ngFor="let note of notes | async | filterNotes:keywordsFilter" [note]="note" [showExtra]="showNoteInfo"></app-note>
+    <app-note *ngFor="let note of notes | async | filterNotes:keywordsFilter" [note]="note" [showExtra]="showNoteInfo" [truncateNote]="truncateNote"></app-note>
   </div>
 </section>
 
 <md-menu x-position="before" #toolbarMenu="mdMenu">
-  <button md-menu-item (click)="showNoteInfo=true;" *ngIf="!showNoteInfo"><md-icon>drag_handle</md-icon>show note info</button>
-  <button md-menu-item (click)="showNoteInfo=false;" *ngIf="showNoteInfo"><md-icon>short_text</md-icon>hide note info</button>
+  <button md-menu-item (click)="showNoteInfo=!showNoteInfo;"><md-icon [style.color]="showNoteInfo ? '' : 'transparent'">check</md-icon>Show footer info</button>
+  <button md-menu-item (click)="truncateNote=!truncateNote;"><md-icon [style.color]="truncateNote ? '' : 'transparent'">check</md-icon>Truncate note</button>
 </md-menu>
 
 <span class="addButton">
