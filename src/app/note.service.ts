@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
-import {AngularFire, FirebaseListObservable} from 'angularfire2';
+import {} from 'angularfire2';
 import {Note} from './note';
+import {AngularFireAuth} from "angularfire2/auth";
+import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database";
+import * as firebase from 'firebase/app';
 
 @Injectable()
 export class NoteService {
@@ -8,11 +11,11 @@ export class NoteService {
   private items: FirebaseListObservable<any[]>;
   private keywordsList: string[] = [];
 
-  constructor(private fireBase: AngularFire) {
-    this.fireBase.auth.subscribe(auth => {
+  constructor(private fireBaseDB: AngularFireDatabase, fireBaseAuth: AngularFireAuth) {
+    fireBaseAuth.authState.subscribe(auth => {
       if(!auth) {
         console.log('User logging...');
-        this.fireBase.auth.login();
+        fireBaseAuth.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
       }
       else {
         console.log('User ' + auth.uid+ ' logged');
@@ -48,7 +51,7 @@ export class NoteService {
   }
 
   setCategory(notesCategory) {
-    this.items = this.fireBase.database.list('/' + notesCategory);
+    this.items = this.fireBaseDB.list('/' + notesCategory);
 
     this.items.subscribe(snapshots => {
       snapshots.forEach(snapshot => {

@@ -13,7 +13,7 @@ describe('App: Notes', () => {
       imports: [
         BrowserModule,
         FormsModule,
-        MaterialModule.forRoot()
+        MaterialModule
       ],
       declarations: [
         AppComponent,

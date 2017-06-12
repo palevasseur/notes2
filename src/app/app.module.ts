@@ -7,7 +7,6 @@ import {
   MdCardModule, MdButtonModule, MdButtonToggleModule, MdInputModule, MdToolbarModule,
   MdIconModule, MdMenuModule, MdAutocompleteModule
 } from '@angular/material';
-import {AngularFireModule, AuthProviders, AuthMethods} from 'angularfire2';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { AppComponent } from './app.component';
@@ -16,6 +15,9 @@ import { FilterNotesPipe } from './notes-app/filter-notes.pipe';
 import { FormatTextPipe } from './notes-app/format-text.pipe';
 import { NoteComponent } from './note/note.component';
 import {NoteService} from './note.service';
+import {AngularFireModule} from "angularfire2";
+import {AngularFireDatabaseModule} from "angularfire2/database";
+import {AngularFireAuthModule} from "angularfire2/auth";
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyCnaOC0gmAab9iEGN9I1UyIR3G8zwCvkWk',
@@ -23,11 +25,6 @@ export const firebaseConfig = {
   databaseURL: 'https://notes-6f837.firebaseio.com',
   storageBucket: 'notes-6f837.appspot.com',
   messagingSenderId: '294714633105'
-};
-
-const firebaseAuthConfig = {
-  provider: AuthProviders.Google,
-  method: AuthMethods.Redirect
 };
 
 @NgModule({
@@ -39,7 +36,9 @@ const firebaseAuthConfig = {
     HttpModule,
     MdCardModule, MdToolbarModule, MdButtonModule, MdInputModule, MdIconModule,
     MdMenuModule, MdAutocompleteModule,
-    AngularFireModule.initializeApp(firebaseConfig, firebaseAuthConfig)
+    AngularFireModule.initializeApp(firebaseConfig, 'app-root'),
+    AngularFireDatabaseModule,
+    AngularFireAuthModule
   ],
   declarations: [ AppComponent, NotesAppComponent, FilterNotesPipe, FormatTextPipe, NoteComponent ],
   providers: [NoteService],

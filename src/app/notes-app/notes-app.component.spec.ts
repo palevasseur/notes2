@@ -13,7 +13,7 @@ describe('NotesAppComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [ BrowserModule, FormsModule, MaterialModule.forRoot() ],
+      imports: [ BrowserModule, FormsModule, MaterialModule ],
       declarations: [ NotesAppComponent ]
     })
     .compileComponents();
