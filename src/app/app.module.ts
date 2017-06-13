@@ -18,6 +18,7 @@ import {NoteService} from './note.service';
 import {AngularFireModule} from "angularfire2";
 import {AngularFireDatabaseModule} from "angularfire2/database";
 import {AngularFireAuthModule} from "angularfire2/auth";
+import {HtmlOutlet} from "./dynamicComponents/html-outlet";
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyCnaOC0gmAab9iEGN9I1UyIR3G8zwCvkWk',
@@ -40,7 +41,7 @@ export const firebaseConfig = {
     AngularFireDatabaseModule,
     AngularFireAuthModule
   ],
-  declarations: [ AppComponent, NotesAppComponent, FilterNotesPipe, FormatTextPipe, NoteComponent ],
+  declarations: [ AppComponent, NotesAppComponent, FilterNotesPipe, FormatTextPipe, NoteComponent, HtmlOutlet],
   providers: [NoteService],
   bootstrap: [AppComponent]
 })
