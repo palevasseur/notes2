@@ -4,6 +4,15 @@ import {Pipe, PipeTransform} from '@angular/core';
 export class FormatTextPipe implements PipeTransform {
 
   transform(text: string) {
+    // todo: format text here, ex: replace http://... with <a href>
+    return text;
+  }
+}
+
+/*@Pipe({name: 'formatUml'})
+export class FormatUmlPipe implements PipeTransform {
+
+  transform(text: string) {
     // plantuml tag => uml diagram
     text = text.replace(/@startuml((?:.|\n|\r)*?)@enduml/gi, (match, $1) => {
       return '<app-uml code="' + this.escapeQuote($1) + '" diagram="plantuml"></app-uml>';
@@ -34,4 +43,4 @@ export class FormatTextPipe implements PipeTransform {
     });
   }
 
-}
+}*/

@@ -3,16 +3,10 @@
     <span>{{note.title}}</span>
   </md-card-title>
   <md-card-content>
-    <!-- todo: create moreLessNote component -->
-    <!--div *ngIf="truncateNote">
-      <div #noteContent style="white-space: pre-wrap; max-height:200px; overflow:hidden;" [innerHTML]="note.text | formatText"></div>
-      <div [style.display]="noteContent.clientHeight==200 ? '' : 'none'" class="moreContent" (click)="noteContent.style.maxHeight = ''">...</div>
-      <div [style.display]="noteContent.clientHeight>200 ? '' : 'none'" class="lessContent" (click)="noteContent.style.maxHeight = '200px';">&#9473;</div>
-    </div>
-    <div *ngIf="!truncateNote" #noteContent style="white-space: pre-wrap; overflow:hidden;" [innerHTML]="note.text | formatText"></div-->
+    <div style="white-space: pre-wrap;" [innerHTML]="note.text | formatText"></div>
 
-    <!--div #noteContent style="white-space: pre-wrap; max-height:200px; overflow:hidden;" [innerHTML]="note.text | formatText"></div-->
-    <html-outlet [html]="note.text | formatText"></html-outlet>
+    <!-- todo: to have uml diagram use this html-outlet tag instead of simple div tag and uncomment+declare "formatUml" pipe -->
+    <!--html-outlet [html]="note.text | formatUml"></html-outlet-->
   </md-card-content>
   <md-card-subtitle *ngIf="showExtra">
     <span>keywords: {{note.keywords}}</span>
