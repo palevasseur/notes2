@@ -12,7 +12,7 @@ export class FilterNotesPipe implements PipeTransform {
     }
 
     // filter notes according to the keywords
-    let notesFiltered = allNotes.filter(note => {
+    const notesFiltered = allNotes.filter(note => {
       if (!note.keywords) {
         return false;
       }
@@ -33,18 +33,18 @@ export class FilterNotesPipe implements PipeTransform {
 
   private static sortNotes(notes: any[]) : any[] {
     return notes.sort((a, b) => {
-      let sortIdA = a.sortId || a.date; // to migrate, use date if no sortId
-      let sortIdB = b.sortId || b.date;
+      const sortIdA = a.sortId || a.date; // to migrate, use date if no sortId
+      const sortIdB = b.sortId || b.date;
 
-      if(!sortIdA && !sortIdB) {
+      if (!sortIdA && !sortIdB) {
         return 0;
       }
 
-      if(sortIdA && !sortIdB) {
+      if (sortIdA && !sortIdB) {
         return -1;
       }
 
-      if(!sortIdA && sortIdB) {
+      if (!sortIdA && sortIdB) {
         return 1;
       }
 

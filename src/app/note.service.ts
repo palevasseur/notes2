@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
 import {} from 'angularfire2';
 import {Note} from './note';
-import {AngularFireAuth} from "angularfire2/auth";
-import {AngularFireDatabase, FirebaseListObservable} from "angularfire2/database";
+import {AngularFireAuth} from 'angularfire2/auth';
+import {AngularFireDatabase, FirebaseListObservable} from 'angularfire2/database';
 import * as firebase from 'firebase/app';
 
 @Injectable()
@@ -13,12 +13,11 @@ export class NoteService {
 
   constructor(private fireBaseDB: AngularFireDatabase, fireBaseAuth: AngularFireAuth) {
     fireBaseAuth.authState.subscribe(auth => {
-      if(!auth) {
+      if (!auth) {
         console.log('User logging...');
         fireBaseAuth.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
-      }
-      else {
-        console.log('User ' + auth.uid+ ' logged');
+      } else {
+        console.log('User ' + auth.uid + ' logged');
       }
     });
   }
@@ -41,9 +40,9 @@ export class NoteService {
   }
 
   updateKeywordsList(newKeys: string[]) {
-    if(newKeys) {
+    if (newKeys) {
       newKeys.forEach(key => {
-        if(this.keywordsList.indexOf(key) == -1) {
+        if (this.keywordsList.indexOf(key) == -1) {
           this.keywordsList.push(key);
         }
       });

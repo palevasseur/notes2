@@ -1,8 +1,10 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import { NoteService } from '../note.service';
-import {FormControl} from "@angular/forms";
-import {Observable} from "rxjs/Observable";
-//import 'rxjs/add/operator/throttle';
+import {FormControl} from '@angular/forms';
+import {Observable} from 'rxjs/Observable';
+import {ActivatedRoute} from '@angular/router';
+
+// import 'rxjs/add/operator/throttle';
 
 interface Suggestion {expression: string, display: string}
 
@@ -21,17 +23,27 @@ export class NotesAppComponent implements OnInit {
   truncateNote = true;
 
   // keywords search
-  keywordsFilter: string[][] = []; // ex: js, obj test => [['js'], ['obj', 'test']] => js OR (obj AND test)
+  keywordsFilter: string[][] = []; // search input, ex: js, obj test => [['js'], ['obj', 'test']] => js OR (obj AND test)
   suggestControl = new FormControl();
   suggestOptions: Observable<Suggestion[]>;
 
-  constructor(private noteService: NoteService) {
+  constructor(private route: ActivatedRoute, private noteService: NoteService) {
   }
 
   ngOnInit() {
+    // search keywords
+    const paramKeywords = this.route.snapshot.queryParamMap.get('search');
+    this.keywordsFilter = this.computeKeywords(paramKeywords);
+    // todo: set the input
+
+    // category
+    const paramCategory = this.route.snapshot.queryParamMap.get('category');
     this.categories = this.noteService.getCategories();
     if (this.categories.length > 0) {
-      this.selectedCategory = this.categories[0].value;
+      const foundCategory = this.categories.filter(c => c.value.toLowerCase() == paramCategory);
+      this.selectedCategory = (foundCategory.length && foundCategory[0].value) || this.categories[0].value;
+    } else {
+      this.selectedCategory = paramCategory ? paramCategory : '';
     }
 
     this.categoryChanged();
@@ -63,9 +75,9 @@ export class NotesAppComponent implements OnInit {
   suggest(val: string): Suggestion[] {
     this.keywordsFilter = this.computeKeywords(val);
 
-    let match = /(.*[, ])?(.*)/g.exec(val);
-    let beforeKeyword = match[1] || '';
-    let lastKeyword = match[2] || '';
+    const match = /(.*[, ])?(.*)/g.exec(val);
+    const beforeKeyword = match[1] || '';
+    const lastKeyword = match[2] || '';
 
     return this.suggestions
       .filter(elem => {
@@ -88,15 +100,15 @@ export class NotesAppComponent implements OnInit {
   }
 
   private computeKeywords(keywordsInput: string): string[][] {
-    let keywordsFilter = [];
+    const keywordsFilter = [];
     if (keywordsInput) {
       keywordsInput
         .toLowerCase()
         .split(',')
         .forEach(
           keywords => {
-            let kw = keywords.split(' ').filter(kw => !!kw);
-            if(kw.length > 0) {
+            const kw = keywords.split(' ').filter(k => !!k);
+            if (kw.length > 0) {
               keywordsFilter.push(kw);
             }
           }
