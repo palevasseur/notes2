@@ -23,13 +23,13 @@
 
   <div fxFlex class="notes-content">
     <app-note #idCreateNote [mode]="'create'" [display]="false"></app-note>
-    <app-note *ngFor="let note of notes | async | filterNotes:keywordsFilter" [note]="note" [showExtra]="showNoteInfo" [truncateNote]="truncateNote"></app-note>
+    <app-note *ngFor="let note of notes | async | filterNotes:keywordsFilter" [note]="note" [showExtra]="showNoteInfo"></app-note>
   </div>
 </section>
 
 <md-menu x-position="before" #toolbarMenu="mdMenu">
   <button md-menu-item (click)="showNoteInfo=!showNoteInfo;"><md-icon [style.color]="showNoteInfo ? '' : 'transparent'">check</md-icon>Show footer info</button>
-  <button md-menu-item (click)="truncateNote=!truncateNote;"><md-icon [style.color]="truncateNote ? '' : 'transparent'">check</md-icon>Truncate note</button>
+  <a md-menu-item [href]="'https://fb-manager-8ba44.firebaseapp.com/'"><md-icon>launch</md-icon>Firebase Backups</a>
 </md-menu>
 
 <span class="addButton">

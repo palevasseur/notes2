@@ -24,7 +24,7 @@ export class NoteService {
 
   getCategories() {
     return [
-      {name: 'Items', value: 'items'},
+      {name: 'Items', value: 'items'}, // value = lower case
       {name: 'Code', value: 'code'},
       {name: 'Photo', value: 'photo'},
       {name: 'Perso', value: 'perso'}

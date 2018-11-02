@@ -2,6 +2,27 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'filterNotes' })
 export class FilterNotesPipe implements PipeTransform {
+  private static sortNotes(notes: any[]): any[] {
+    return notes.sort((a, b) => {
+      const sortIdA = a.sortId || a.date; // to migrate, use date if no sortId
+      const sortIdB = b.sortId || b.date;
+
+      if (!sortIdA && !sortIdB) {
+        return 0;
+      }
+
+      if (sortIdA && !sortIdB) {
+        return -1;
+      }
+
+      if (!sortIdA && sortIdB) {
+        return 1;
+      }
+
+      return sortIdA >= sortIdB ? -1 : 1;
+    });
+  }
+
   transform(allNotes: any[], keywordsFilter: string[][]) {
     if (!allNotes) {
       return [];
@@ -29,26 +50,5 @@ export class FilterNotesPipe implements PipeTransform {
     });
 
     return FilterNotesPipe.sortNotes(notesFiltered);
-  }
-
-  private static sortNotes(notes: any[]) : any[] {
-    return notes.sort((a, b) => {
-      const sortIdA = a.sortId || a.date; // to migrate, use date if no sortId
-      const sortIdB = b.sortId || b.date;
-
-      if (!sortIdA && !sortIdB) {
-        return 0;
-      }
-
-      if (sortIdA && !sortIdB) {
-        return -1;
-      }
-
-      if (!sortIdA && sortIdB) {
-        return 1;
-      }
-
-      return sortIdA >= sortIdB ? -1 : 1;
-    });
   }
 }

@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Note} from '../note';
 import {NoteService} from '../note.service';
 
@@ -6,16 +6,14 @@ type NoteStatus = 'display' | 'edit' | 'create';
 
 @Component({
   selector: 'app-note',
-  inputs: ['note', 'showExtra', 'mode', 'display', 'truncateNote'],
   templateUrl: './note.component.html',
   styleUrls: ['./note.component.css']
 })
 export class NoteComponent implements OnInit {
-  public note: any; // todo: split Note and NoteDB
-  public showExtra: boolean;
-  public mode: NoteStatus = 'display';
-  public display = true;
-  public truncateNote = true;
+  @Input() note: any; // todo: split Note and NoteDB
+  @Input() showExtra: boolean;
+  @Input() mode: NoteStatus = 'display';
+  @Input() display = true;
 
   private keywordsInput = '';
 

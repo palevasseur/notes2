@@ -20,7 +20,6 @@ export class NotesAppComponent implements OnInit {
   categories: {name: string, value: string}[];
   selectedCategory: string; // value of the category
   showNoteInfo = false;
-  truncateNote = true;
 
   // keywords search
   keywordsFilter: string[][] = []; // search input, ex: js, obj test => [['js'], ['obj', 'test']] => js OR (obj AND test)
@@ -31,21 +30,17 @@ export class NotesAppComponent implements OnInit {
   }
 
   ngOnInit() {
-    // search keywords
-    const paramKeywords = this.route.snapshot.queryParamMap.get('search');
-    this.keywordsFilter = this.computeKeywords(paramKeywords);
-    // todo: set the input
+    // search keywords param
+    // todo: when search keywords changed => need to reflect in url
+    const paramSearch = this.route.snapshot.queryParamMap.get('search');
+    this.keywordsFilter = this.computeKeywords(paramSearch);
+    this.suggestControl.setValue(paramSearch);
 
-    // category
-    const paramCategory = this.route.snapshot.queryParamMap.get('category');
+    // category param
+    const paramCategory = (this.route.snapshot.queryParamMap.get('category') || '').toLowerCase();
     this.categories = this.noteService.getCategories();
-    if (this.categories.length > 0) {
-      const foundCategory = this.categories.filter(c => c.value.toLowerCase() == paramCategory);
-      this.selectedCategory = (foundCategory.length && foundCategory[0].value) || this.categories[0].value;
-    } else {
-      this.selectedCategory = paramCategory ? paramCategory : '';
-    }
-
+    const foundCategory = this.categories.filter(c => c.value == paramCategory);
+    this.selectedCategory = foundCategory.length ? foundCategory[0].value : this.categories[0].value;
     this.categoryChanged();
 
     this.suggestOptions = this.suggestControl.valueChanges.map(val => this.suggest(val));
@@ -53,14 +48,6 @@ export class NotesAppComponent implements OnInit {
 
   get selectedCategoryName() {
     return this.categories.filter(cat => cat.value == this.selectedCategory)[0].name;
-  }
-
-  private static flatten(keywords: string[][]): string[] {
-    return [].concat.apply([], keywords);
-  }
-
-  static formatDate(date: number) {
-    return (new Date(date)).toString();
   }
 
   categoryChanged() {
